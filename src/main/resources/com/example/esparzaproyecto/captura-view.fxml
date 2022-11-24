@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="503.0" prefWidth="408.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.esparzaproyecto.controllers.CapturaController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="46.0" prefWidth="408.0" spacing="20.0">
+         <children>
+            <RadioButton fx:id="radioNuevo" lineSpacing="20.0" mnemonicParsing="false" text="Nuevo" />
+            <RadioButton fx:id="radioModificar" mnemonicParsing="false" text="Modificar" />
+            <RadioButton fx:id="radioEliminar" mnemonicParsing="false" text="Eliminar" />
+            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="61.0" text="Grabar" />
+            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="56.0" text="Limpiar" />
+         </children>
+      </HBox>
+      <Label layoutX="50.0" layoutY="68.0" text="Clave" />
+      <Label layoutX="32.0" layoutY="109.0" text="Nombre" />
+      <Label layoutX="19.0" layoutY="147.0" text="Descripcion" />
+      <Label layoutX="32.0" layoutY="189.0" text="Familias" />
+      <TextField layoutX="84.0" layoutY="64.0" prefHeight="25.0" prefWidth="57.0" />
+      <TextField layoutX="85.0" layoutY="105.0" />
+      <TextField layoutX="85.0" layoutY="143.0" />
+      <ComboBox layoutX="84.0" layoutY="185.0" prefWidth="150.0" />
+   </children>
+</Pane>
