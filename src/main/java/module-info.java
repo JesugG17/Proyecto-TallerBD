@@ -10,6 +10,7 @@ module com.example.esparzaproyecto {
     requires org.kordamp.bootstrapfx.core;
     // equires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires java.sql;
 
     opens com.example.esparzaproyecto to javafx.fxml;
     opens com.example.esparzaproyecto.models to javafx.fxml;
