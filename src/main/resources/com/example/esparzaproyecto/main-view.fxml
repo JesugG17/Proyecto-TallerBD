@@ -1,11 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-
-<Pane fx:controller="com.example.esparzaproyecto.controllers.MainController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="365.0" prefWidth="309.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.esparzaproyecto.controllers.MainController">
    <children>
-      <Label layoutX="272.0" layoutY="160.0" text="ASDADSADASDSADA" />
+      <GridPane layoutX="19.0" layoutY="35.0" prefHeight="130.0" prefWidth="279.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="164.4000244140625" minWidth="10.0" prefWidth="94.40001220703125" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="232.8" minWidth="10.0" prefWidth="184.79998779296875" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label prefHeight="18.0" prefWidth="87.0" text="Servidor" GridPane.halignment="LEFT" />
+            <Label text="Base de datos" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
+            <Label text="Inicio de sesion" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
+            <Label text="Contraseña " GridPane.halignment="LEFT" GridPane.rowIndex="3" />
+            <TextField fx:id="txtServidor" prefHeight="26.0" prefWidth="190.0" GridPane.columnIndex="1" />
+            <TextField fx:id="txtBaseDatos" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="txtInicioSesion" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <PasswordField fx:id="txtContrasenia" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         </children>
+      </GridPane>
+      <Button fx:id="btnConectar" layoutX="114.0" layoutY="183.0" mnemonicParsing="false" onAction="#connection" prefHeight="26.0" prefWidth="82.0" text="Conectar" />
+      <Button fx:id="btnCaptura" layoutX="91.0" layoutY="239.0" mnemonicParsing="false" onAction="#showCapturaView" prefHeight="40.0" prefWidth="120.0" text="Captura" visible="false" />
+      <Button fx:id="btnConsulta" layoutX="91.0" layoutY="287.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Consulta" visible="false" />
+      <Label fx:id="lblMensaje" layoutX="115.0" layoutY="216.0" prefHeight="17.0" prefWidth="170.0" textFill="#ff1d1d" visible="false" />
    </children>
 </Pane>
