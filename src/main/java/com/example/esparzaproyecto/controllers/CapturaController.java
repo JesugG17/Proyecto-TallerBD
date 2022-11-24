@@ -14,8 +14,6 @@ public class CapturaController implements Initializable {
     RadioButton radioNuevo, radioModificar, radioEliminar;
 
 
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ToggleGroup toggleGroup = new ToggleGroup();
