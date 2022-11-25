@@ -80,4 +80,14 @@ public class MainController {
         }
     }
 
+
+    public static void hacerConexion() {
+        String url = "jdbc:sqlserver://;databaseName=ventas;encrypt=true;trustServerCertificate=true";
+        try {
+            coneccion = DriverManager.getConnection(url, "sa", "Hachiko11");
+        } catch(Exception error) {
+            System.out.println(error.getMessage());
+        }
+    }
+
 }
