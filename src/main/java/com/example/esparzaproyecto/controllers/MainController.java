@@ -20,7 +20,7 @@ public class MainController {
     private Button btnCaptura, btnConsulta;
     @FXML
     private Label lblMensaje;
-    private Connection coneccion;
+    static Connection coneccion;
 
    @FXML public void connection(){
 
@@ -54,6 +54,22 @@ public class MainController {
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
             stage.setTitle("Captura");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable( false );
+            stage.setScene(scene);
+            stage.showAndWait();
+
+        } catch (Exception error) {
+            System.out.println(error.getMessage());
+        }
+    }
+    @FXML public void showConsultaView() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/esparzaproyecto/consulta-view.fxml"));
+        try {
+
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
+            stage.setTitle("Consulta");
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable( false );
             stage.setScene(scene);

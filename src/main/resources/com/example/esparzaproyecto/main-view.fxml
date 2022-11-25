@@ -35,7 +35,7 @@
       </GridPane>
       <Button fx:id="btnConectar" layoutX="114.0" layoutY="183.0" mnemonicParsing="false" onAction="#connection" prefHeight="26.0" prefWidth="82.0" text="Conectar" />
       <Button fx:id="btnCaptura" layoutX="91.0" layoutY="239.0" mnemonicParsing="false" onAction="#showCapturaView" prefHeight="40.0" prefWidth="120.0" text="Captura" visible="false" />
-      <Button fx:id="btnConsulta" layoutX="91.0" layoutY="287.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Consulta" visible="false" />
+      <Button fx:id="btnConsulta" layoutX="91.0" layoutY="287.0" mnemonicParsing="false" onAction="#showConsultaView" prefHeight="40.0" prefWidth="120.0" text="Consulta" visible="false" />
       <Label fx:id="lblMensaje" layoutX="115.0" layoutY="216.0" prefHeight="17.0" prefWidth="170.0" textFill="#ff1d1d" visible="false" />
    </children>
 </Pane>
