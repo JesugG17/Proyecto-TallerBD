@@ -20,7 +20,7 @@ public class MainController {
     private Button btnCaptura, btnConsulta;
     @FXML
     private Label lblMensaje;
-    private Connection coneccion;
+    static Connection coneccion;
 
    @FXML public void connection(){
 
@@ -60,6 +60,16 @@ public class MainController {
             stage.showAndWait();
 
         } catch (Exception error) {
+            System.out.println(error.getMessage());
+        }
+    }
+
+
+    public static void hacerConexion() {
+        String url = "jdbc:sqlserver://;databaseName=ventas;encrypt=true;trustServerCertificate=true";
+        try {
+            coneccion = DriverManager.getConnection(url, "sa", "Hachiko11");
+        } catch(Exception error) {
             System.out.println(error.getMessage());
         }
     }

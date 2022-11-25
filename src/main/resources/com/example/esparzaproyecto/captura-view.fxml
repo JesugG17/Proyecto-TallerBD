@@ -10,30 +10,35 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="503.0" prefWidth="408.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.esparzaproyecto.controllers.CapturaController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="517.0" prefWidth="522.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.esparzaproyecto.controllers.CapturaController">
    <children>
-      <HBox alignment="CENTER" prefHeight="46.0" prefWidth="408.0" spacing="20.0">
+      <HBox alignment="CENTER" prefHeight="46.0" prefWidth="522.0" spacing="20.0">
          <children>
             <RadioButton fx:id="radioNuevo" lineSpacing="20.0" mnemonicParsing="false" text="Nuevo" />
             <RadioButton fx:id="radioModificar" mnemonicParsing="false" text="Modificar" />
             <RadioButton fx:id="radioEliminar" mnemonicParsing="false" text="Eliminar" />
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="61.0" text="Grabar" />
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="56.0" text="Limpiar" />
+            <Button mnemonicParsing="false" onAction="#grabar" prefHeight="26.0" prefWidth="61.0" text="Grabar" />
+            <Button mnemonicParsing="false" onAction="#limpiar" prefHeight="26.0" prefWidth="56.0" text="Limpiar" />
          </children>
       </HBox>
-      <Label layoutX="50.0" layoutY="68.0" text="Clave" />
-      <Label layoutX="32.0" layoutY="109.0" text="Nombre" />
-      <Label layoutX="19.0" layoutY="147.0" text="Descripcion" />
-      <Label layoutX="32.0" layoutY="189.0" text="Familias" />
-      <TextField layoutX="84.0" layoutY="64.0" prefHeight="25.0" prefWidth="57.0" />
-      <TextField layoutX="85.0" layoutY="105.0" />
-      <TextField layoutX="85.0" layoutY="143.0" />
-      <ComboBox layoutX="84.0" layoutY="185.0" prefWidth="150.0" />
-      <TableView layoutX="8.0" layoutY="227.0" prefHeight="268.0" prefWidth="392.0">
+      <Label layoutX="54.0" layoutY="60.0" text="Clave" />
+      <Label layoutX="36.0" layoutY="101.0" text="Nombre" />
+      <Label layoutX="23.0" layoutY="139.0" text="Descripcion" />
+      <Label layoutX="36.0" layoutY="206.0" text="Familias" />
+      <TextField fx:id="txtClave" alignment="CENTER" disable="true" layoutX="88.0" layoutY="56.0" prefHeight="25.0" prefWidth="57.0" promptText="*" />
+      <TextField fx:id="txtNombre" layoutX="89.0" layoutY="97.0" prefHeight="25.0" prefWidth="291.0" />
+      <TextField fx:id="txtDescripcion" layoutX="89.0" layoutY="135.0" prefHeight="25.0" prefWidth="291.0" />
+      <ComboBox fx:id="cmbFamilias" layoutX="88.0" layoutY="202.0" prefWidth="150.0" />
+      <TableView fx:id="tablaDatos" layoutX="8.0" layoutY="235.0" prefHeight="268.0" prefWidth="503.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+          <TableColumn fx:id="columnClave" prefWidth="75.0" text="Clave" />
+          <TableColumn fx:id="columnNombre" prefWidth="136.79998779296875" text="Nombre" />
+            <TableColumn fx:id="columnDescripcion" prefWidth="160.7999725341797" text="Descripcion" />
+            <TableColumn fx:id="columnPrecio" prefWidth="68.7999267578125" text="Precio" />
+            <TableColumn fx:id="columnFamilia" prefWidth="60.60003662109375" text="Familia" />
         </columns>
       </TableView>
+      <TextField fx:id="txtPrecio" layoutX="89.0" layoutY="169.0" prefHeight="25.0" prefWidth="291.0" />
+      <Label layoutX="41.0" layoutY="173.0" text="Precio" />
    </children>
 </Pane>
