@@ -9,6 +9,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="517.0" prefWidth="522.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.esparzaproyecto.controllers.CapturaController">
    <children>
@@ -24,10 +25,11 @@
       <Label layoutX="54.0" layoutY="60.0" text="Clave" />
       <Label layoutX="36.0" layoutY="101.0" text="Nombre" />
       <Label layoutX="23.0" layoutY="139.0" text="Descripcion" />
-      <Label layoutX="36.0" layoutY="206.0" text="Familias" />
+      <Label layoutX="36.0" layoutY="206.0" text="Familia" />
       <TextField fx:id="txtClave" alignment="CENTER" disable="true" layoutX="88.0" layoutY="56.0" prefHeight="25.0" prefWidth="57.0" promptText="*" />
       <TextField fx:id="txtNombre" layoutX="89.0" layoutY="97.0" prefHeight="25.0" prefWidth="291.0" />
       <TextField fx:id="txtDescripcion" layoutX="89.0" layoutY="135.0" prefHeight="25.0" prefWidth="291.0" />
+      <TextField fx:id="txtPrecio" layoutX="89.0" layoutY="169.0" prefHeight="25.0" prefWidth="291.0" />
       <ComboBox fx:id="cmbFamilias" layoutX="88.0" layoutY="202.0" prefWidth="150.0" />
       <TableView fx:id="tablaDatos" layoutX="8.0" layoutY="235.0" prefHeight="268.0" prefWidth="503.0">
         <columns>
@@ -38,7 +40,11 @@
             <TableColumn fx:id="columnFamilia" prefWidth="60.60003662109375" text="Familia" />
         </columns>
       </TableView>
-      <TextField fx:id="txtPrecio" layoutX="89.0" layoutY="169.0" prefHeight="25.0" prefWidth="291.0" />
       <Label layoutX="41.0" layoutY="173.0" text="Precio" />
+      <Label fx:id="labelMessages" layoutX="276.0" layoutY="206.0" text="Label" textFill="RED" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
    </children>
 </Pane>
