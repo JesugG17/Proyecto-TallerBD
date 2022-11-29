@@ -11,9 +11,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.Border;
 
 import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class CapturaController implements Initializable {
@@ -41,6 +39,7 @@ public class CapturaController implements Initializable {
 
     Background backgroudnInicial;
     Border borderInicial;
+    private String msg;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -67,6 +66,7 @@ public class CapturaController implements Initializable {
 
         txtNombre.requestFocus();
         llenarCombo();
+        llenarTabla();
     }
 
     @FXML
@@ -86,6 +86,10 @@ public class CapturaController implements Initializable {
 
         Articulo articulo = new Articulo(clave, nombre, descripcion, precio, famId);
 
+        if (!insertarDatos( articulo )) {
+            labelMessages.setText( msg );
+            return;
+        }
 
         articulos.add(articulo);
         tablaDatos.refresh();
@@ -94,6 +98,37 @@ public class CapturaController implements Initializable {
         labelMessages.setVisible( true );
     }
 
+    private boolean insertarDatos(Articulo articulo) {
+
+        try {
+            int artid = 0;
+            String nombre = articulo.getNombre();
+            String descripcion = articulo.getDescripcion();
+            double precio = articulo.getPrecio();
+            int famId = articulo.getFamId();
+
+            CallableStatement callableStatement = MainController.coneccion.prepareCall(
+                    "{call sp_MttoArticulos (?,?,?,?,?)}"
+            );
+
+            callableStatement.registerOutParameter("artid", Types.INTEGER);
+            callableStatement.setString("artNombre", nombre);
+            callableStatement.setString("artDescripcion", descripcion);
+            callableStatement.setDouble("artPrecio", precio);
+            callableStatement.setInt("famId", famId);
+
+            callableStatement.execute();
+            txtClave.setDisable( false );
+            txtClave.setText( callableStatement.getInt("artid")+ "" );
+
+        } catch (Exception error) {
+            msg = error.getMessage();
+            return false;
+        }
+
+
+        return true;
+    }
 
     @FXML
     public void limpiar() {
@@ -150,5 +185,23 @@ public class CapturaController implements Initializable {
 
     }
 
+    private void llenarTabla() {
+        try {
+            Articulo articulo;
+            Statement smt = MainController.coneccion.createStatement();
+            ResultSet tuplas = smt.executeQuery("select * from articulos");
+            while ( tuplas.next() ) {
+                articulo = new Articulo(tuplas.getInt("artid"),
+                        tuplas.getString("artnombre"),
+                        tuplas.getString("artdescripcion"),
+                        tuplas.getDouble("artprecio"),
+                        tuplas.getInt("famid"));
+                articulos.add( articulo );
+            }
+            tablaDatos.refresh();
+        } catch(Exception error) {
+            System.out.println(error.getMessage());
+        }
+    }
 
 }
