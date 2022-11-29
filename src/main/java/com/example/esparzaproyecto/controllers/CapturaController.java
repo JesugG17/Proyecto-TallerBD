@@ -50,7 +50,7 @@ public class CapturaController implements Initializable {
         columnNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         columnDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
         columnPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
-        columnFamilia.setCellValueFactory(new PropertyValueFactory<>("familia"));
+        columnFamilia.setCellValueFactory(new PropertyValueFactory<>("famId"));
 
         llenarCombo();
     }
