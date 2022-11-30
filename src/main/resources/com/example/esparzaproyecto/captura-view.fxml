@@ -15,9 +15,9 @@
    <children>
       <HBox alignment="CENTER" prefHeight="46.0" prefWidth="522.0" spacing="20.0">
          <children>
-            <RadioButton fx:id="radioNuevo" lineSpacing="20.0" mnemonicParsing="false" text="Nuevo" />
-            <RadioButton fx:id="radioModificar" mnemonicParsing="false" text="Modificar" />
-            <RadioButton fx:id="radioEliminar" mnemonicParsing="false" text="Eliminar" />
+            <RadioButton fx:id="radioNuevo" lineSpacing="20.0" mnemonicParsing="false" onAction="#cambiar" text="Nuevo" />
+            <RadioButton fx:id="radioModificar" mnemonicParsing="false" onAction="#cambiar" text="Modificar" />
+            <RadioButton fx:id="radioEliminar" mnemonicParsing="false" onAction="#cambiar" text="Eliminar" />
             <Button mnemonicParsing="false" onAction="#grabar" prefHeight="26.0" prefWidth="61.0" text="Grabar" />
             <Button mnemonicParsing="false" onAction="#limpiar" prefHeight="26.0" prefWidth="56.0" text="Limpiar" />
          </children>
@@ -26,7 +26,7 @@
       <Label layoutX="36.0" layoutY="101.0" text="Nombre" />
       <Label layoutX="23.0" layoutY="139.0" text="Descripcion" />
       <Label layoutX="36.0" layoutY="206.0" text="Familia" />
-      <TextField fx:id="txtClave" alignment="CENTER" disable="true" layoutX="88.0" layoutY="56.0" prefHeight="25.0" prefWidth="57.0" promptText="*" />
+      <TextField fx:id="txtClave" alignment="CENTER" disable="true" layoutX="88.0" layoutY="56.0" onKeyReleased="#consultarDatos" prefHeight="25.0" prefWidth="57.0" promptText="clave" />
       <TextField fx:id="txtNombre" layoutX="89.0" layoutY="97.0" prefHeight="25.0" prefWidth="291.0" />
       <TextField fx:id="txtDescripcion" layoutX="89.0" layoutY="135.0" prefHeight="25.0" prefWidth="291.0" />
       <TextField fx:id="txtPrecio" layoutX="89.0" layoutY="169.0" prefHeight="25.0" prefWidth="291.0" />

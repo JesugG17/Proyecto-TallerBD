@@ -10,12 +10,17 @@ public class Articulo {
     private SimpleIntegerProperty clave, famId;
     private SimpleDoubleProperty precio;
 
-    public Articulo(int clave, String nombre, String descripcion, double precio, int famID) {
-        this.clave = new SimpleIntegerProperty(clave);
+    public Articulo(String nombre, String descripcion, double precio, int famID) {
+        this.clave = new SimpleIntegerProperty(0);
         this.nombre = new SimpleStringProperty(nombre);
         this.descripcion = new SimpleStringProperty(descripcion);
         this.precio = new SimpleDoubleProperty(precio);
         this.famId = new SimpleIntegerProperty(famID);
+    }
+
+    public Articulo(int clave, String nombre, String descripcion, double precio, int famID) {
+        this(nombre, descripcion, precio, famID);
+        this.clave = new SimpleIntegerProperty(clave);
     }
 
     public String getNombre() {
@@ -57,4 +62,10 @@ public class Articulo {
     public SimpleIntegerProperty famIdProperty() {
         return famId;
     }
+
+    public void setClave(int clave) {
+        this.clave.set(clave);
+    }
+
+
 }

@@ -7,8 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.Border;
 
 import java.net.URL;
 import java.sql.*;
@@ -37,32 +35,25 @@ public class CapturaController implements Initializable {
     @FXML
     Label labelMessages;
 
-    Background backgroudnInicial;
-    Border borderInicial;
     private String msg;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ToggleGroup toggleGroup = new ToggleGroup();
         articulos = FXCollections.observableArrayList();
-        radioNuevo.setToggleGroup( toggleGroup );
-        radioNuevo.setSelected( true );
-        radioModificar.setToggleGroup( toggleGroup );
-        radioEliminar.setToggleGroup( toggleGroup );
-
+        radioNuevo.setToggleGroup(toggleGroup);
+        radioNuevo.setSelected(true);
+        radioModificar.setToggleGroup(toggleGroup);
+        radioEliminar.setToggleGroup(toggleGroup);
 
         tablaDatos.setPlaceholder(new Label("Sin articulos que mostrar"));
-        tablaDatos.setItems( articulos );
+        tablaDatos.setItems(articulos);
 
         columnClave.setCellValueFactory(new PropertyValueFactory<>("clave"));
         columnNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         columnDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
         columnPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
         columnFamilia.setCellValueFactory(new PropertyValueFactory<>("famId"));
-
-        backgroudnInicial = txtPrecio.getBackground();
-        borderInicial = txtPrecio.getBorder();
-
 
         txtNombre.requestFocus();
         llenarCombo();
@@ -71,80 +62,109 @@ public class CapturaController implements Initializable {
 
     @FXML
     public void grabar() {
-        labelMessages.setVisible( false );
+        labelMessages.setVisible(false);
         if (!validarPrecio()) {
             txtPrecio.requestFocus();
             return;
         }
 
-        int clave = 1;
         String nombre = txtNombre.getText();
         String descripcion = txtDescripcion.getText();
         double precio = Double.parseDouble(txtPrecio.getText());
         String idFam = cmbFamilias.getValue().substring(0, cmbFamilias.getValue().indexOf(" "));
-        int famId = Integer.parseInt( idFam );
+        int famId = Integer.parseInt(idFam);
 
-        Articulo articulo = new Articulo(clave, nombre, descripcion, precio, famId);
+        Articulo articulo = new Articulo(nombre, descripcion, precio, famId);
 
-        if (!insertarDatos( articulo )) {
-            labelMessages.setText( msg );
+        if (!insertarDatos(articulo)) {
+            labelMessages.setVisible( true );
+            labelMessages.setText(msg);
             return;
         }
 
-        articulos.add(articulo);
-        tablaDatos.refresh();
+        llenarTabla();
 
         labelMessages.setText("DATOS GRABADOS EXITOSAMENTE");
-        labelMessages.setVisible( true );
-    }
-
-    private boolean insertarDatos(Articulo articulo) {
-
-        try {
-            int artid = 0;
-            String nombre = articulo.getNombre();
-            String descripcion = articulo.getDescripcion();
-            double precio = articulo.getPrecio();
-            int famId = articulo.getFamId();
-
-            CallableStatement callableStatement = MainController.coneccion.prepareCall(
-                    "{call sp_MttoArticulos (?,?,?,?,?)}"
-            );
-
-            callableStatement.registerOutParameter("artid", Types.INTEGER);
-            callableStatement.setString("artNombre", nombre);
-            callableStatement.setString("artDescripcion", descripcion);
-            callableStatement.setDouble("artPrecio", precio);
-            callableStatement.setInt("famId", famId);
-
-            callableStatement.execute();
-            txtClave.setDisable( false );
-            txtClave.setText( callableStatement.getInt("artid")+ "" );
-
-        } catch (Exception error) {
-            msg = error.getMessage();
-            return false;
-        }
-
-
-        return true;
+        labelMessages.setVisible(true);
     }
 
     @FXML
     public void limpiar() {
 
         if (labelMessages.isVisible()) {
-            labelMessages.setVisible( false );
+            labelMessages.setVisible(false);
         }
 
-
-        txtClave.setText("*");
-        txtClave.setDisable( true );
+        txtClave.setText("");
+        txtClave.setDisable(true);
         txtNombre.setText("");
         txtDescripcion.setText("");
         txtPrecio.setText("");
-        radioNuevo.setSelected( true );
-        llenarCombo();
+        radioNuevo.setSelected(true);
+        cmbFamilias.getSelectionModel().clearSelection();
+    }
+
+    @FXML
+    public void cambiar() {
+        if (radioNuevo.isSelected()) {
+            txtClave.setDisable(true);
+            txtClave.setText("");
+            limpiar();
+            return;
+        }
+
+        if (radioModificar.isSelected() || radioEliminar.isSelected()) {
+            txtClave.setDisable(false);
+            txtClave.setText("");
+            clear();
+        }
+
+    }
+
+    @FXML
+    public void consultarDatos() {
+
+        labelMessages.setVisible(false);
+
+        try {
+
+            int clave = Integer.parseInt(txtClave.getText());
+
+            String query = "SELECT * FROM vw_familias WHERE artid = " + clave;
+            Statement smt = MainController.coneccion.createStatement();
+            ResultSet tupla = smt.executeQuery(query);
+
+            if (!tupla.next()) {
+                msg = "ESTE ID NO EXISTE";
+                labelMessages.setText(msg);
+                labelMessages.setVisible(true);
+                clear();
+                return;
+            }
+
+            String nombre = tupla.getString("artnombre");
+            String descripcion = tupla.getString("artdescripcion");
+            double precio = tupla.getDouble("artprecio");
+            int famid = tupla.getInt("famid");
+
+            txtNombre.setText(nombre);
+            txtDescripcion.setText(descripcion);
+            txtPrecio.setText(precio + "");
+            cmbFamilias.getSelectionModel().select(famid - 1);
+
+        } catch (SQLException error) {
+            msg = error.getMessage();
+        } catch (Exception error) {
+            clear();
+            txtClave.requestFocus();
+        }
+    }
+
+    private void clear() {
+        txtNombre.setText("");
+        txtDescripcion.setText("");
+        txtPrecio.setText("");
+        cmbFamilias.getSelectionModel().clearSelection();
     }
 
 
@@ -156,7 +176,7 @@ public class CapturaController implements Initializable {
 
         } catch (Exception error) {
             labelMessages.setText("El precio debe de ser numerico");
-            labelMessages.setVisible( true );
+            labelMessages.setVisible(true);
             System.out.println(error.getMessage());
             return false;
         }
@@ -171,13 +191,12 @@ public class CapturaController implements Initializable {
         try {
             MainController.hacerConexion();
             Statement smt = MainController.coneccion.createStatement();
-            ResultSet tuplas = smt.executeQuery( query );
+            ResultSet tuplas = smt.executeQuery(query);
 
-            while( tuplas.next() ) {
+            while (tuplas.next()) {
                 String familia = tuplas.getInt(("famid")) + " - " + tuplas.getString("famnombre");
-                cmbFamilias.getItems().add( familia );
+                cmbFamilias.getItems().add(familia);
             }
-
 
         } catch (Exception error) {
             System.out.println(error.getMessage());
@@ -186,22 +205,78 @@ public class CapturaController implements Initializable {
     }
 
     private void llenarTabla() {
+
+        articulos.clear();
         try {
             Articulo articulo;
             Statement smt = MainController.coneccion.createStatement();
             ResultSet tuplas = smt.executeQuery("select * from articulos");
-            while ( tuplas.next() ) {
+            while (tuplas.next()) {
                 articulo = new Articulo(tuplas.getInt("artid"),
                         tuplas.getString("artnombre"),
                         tuplas.getString("artdescripcion"),
                         tuplas.getDouble("artprecio"),
                         tuplas.getInt("famid"));
-                articulos.add( articulo );
+                articulos.add(articulo);
             }
             tablaDatos.refresh();
-        } catch(Exception error) {
+        } catch (Exception error) {
             System.out.println(error.getMessage());
         }
+    }
+
+    private boolean insertarDatos(Articulo articulo) {
+
+        int opcion = saberOpcion();
+
+        try {
+
+            int clave = 0;
+            if (!txtClave.getText().isEmpty()) {
+                clave = Integer.parseInt(txtClave.getText());
+            }
+
+            String nombre = articulo.getNombre();
+            String descripcion = articulo.getDescripcion();
+            double precio = articulo.getPrecio();
+            int famId = articulo.getFamId();
+            System.out.println( clave );
+            CallableStatement callableStatement = MainController.coneccion.prepareCall(
+                    "{call sp_MttoArticulos (?,?,?,?,?,?)}"
+            );
+
+            callableStatement.registerOutParameter("artid", Types.INTEGER);
+            callableStatement.setInt("artid", clave);
+            callableStatement.setString("artNombre", nombre);
+            callableStatement.setString("artDescripcion", descripcion);
+            callableStatement.setDouble("artPrecio", precio);
+            callableStatement.setInt("famId", famId);
+            callableStatement.setInt("opcion", opcion);
+
+            callableStatement.execute();
+            txtClave.setText(callableStatement.getInt("artid") + "");
+            articulo.setClave(callableStatement.getInt("artid"));
+
+        } catch (Exception error) {
+            msg = error.getMessage();
+            System.out.println(error.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+    private int saberOpcion() {
+
+        if (radioNuevo.isSelected()) {
+            return 0;
+        }
+
+        if (radioModificar.isSelected()) {
+            return 1;
+        }
+
+        return 2;
     }
 
 }
