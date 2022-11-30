@@ -267,12 +267,13 @@ public class CapturaController implements Initializable {
 
     private boolean insertarDatos(Articulo articulo) {
 
-        int opcion = saberOpcion();
+
+        String procedimiento = saberProcedimiento();
 
         try {
 
             int clave = 0;
-            if (!txtClave.getText().isEmpty() && opcion != 0) {
+            if (!txtClave.getText().isEmpty() && !radioNuevo.isSelected()) {
                 clave = Integer.parseInt(txtClave.getText());
             }
 
@@ -280,22 +281,24 @@ public class CapturaController implements Initializable {
             String descripcion = articulo.getDescripcion();
             double precio = articulo.getPrecio();
             int famId = articulo.getFamId();
-            System.out.println( clave );
-            CallableStatement callableStatement = MainController.coneccion.prepareCall(
-                    "{call sp_MttoArticulos (?,?,?,?,?,?)}"
-            );
+            CallableStatement callableStatement = MainController.coneccion.prepareCall(procedimiento);
 
-            callableStatement.registerOutParameter("artid", Types.INTEGER);
+            System.out.println(procedimiento);
             callableStatement.setInt("artid", clave);
-            callableStatement.setString("artNombre", nombre);
-            callableStatement.setString("artDescripcion", descripcion);
-            callableStatement.setDouble("artPrecio", precio);
-            callableStatement.setInt("famId", famId);
-            callableStatement.setInt("opcion", opcion);
+            if (procedimiento.equals("{call sp_MttoArticulos (?,?,?,?,?)}")) {
+                callableStatement.registerOutParameter("artid", Types.INTEGER);
+                callableStatement.setString("artNombre", nombre);
+                callableStatement.setString("artDescripcion", descripcion);
+                callableStatement.setDouble("artPrecio", precio);
+                callableStatement.setInt("famId", famId);
+            }
 
             callableStatement.execute();
-            txtClave.setText(callableStatement.getInt("artid") + "");
-            articulo.setClave(callableStatement.getInt("artid"));
+            if (procedimiento.equals("{call sp_MttoArticulos (?,?,?,?,?)}")) {
+                txtClave.setText(callableStatement.getInt("artid") + "");
+                articulo.setClave(callableStatement.getInt("artid"));
+
+            }
 
         } catch (Exception error) {
             msg = error.getMessage();
@@ -306,17 +309,13 @@ public class CapturaController implements Initializable {
         return true;
     }
 
-    private int saberOpcion() {
+    private String saberProcedimiento() {
 
-        if (radioNuevo.isSelected()) {
-            return 0;
+        if (radioNuevo.isSelected() || radioModificar.isSelected()) {
+            return "{call sp_MttoArticulos (?,?,?,?,?)}";
         }
 
-        if (radioModificar.isSelected()) {
-            return 1;
-        }
-
-        return 2;
+        return "{call sp_mttoArticulosEliminar (?)}";
     }
 
     private void deshabilitarCampos(boolean estado) {
