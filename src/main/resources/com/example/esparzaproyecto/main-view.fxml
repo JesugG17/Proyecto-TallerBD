@@ -27,15 +27,15 @@
             <Label text="Base de datos" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
             <Label text="Inicio de sesion" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
             <Label text="Contraseña " GridPane.halignment="LEFT" GridPane.rowIndex="3" />
-            <TextField fx:id="txtServidor" prefHeight="26.0" prefWidth="190.0" GridPane.columnIndex="1" />
-            <TextField fx:id="txtBaseDatos" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="txtInicioSesion" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <PasswordField fx:id="txtContrasenia" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="txtServidor" prefHeight="26.0" prefWidth="190.0" text="MSI" GridPane.columnIndex="1" />
+            <TextField fx:id="txtBaseDatos" text="Ventas" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="txtInicioSesion" text="sa" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <PasswordField fx:id="txtContrasenia" text="Monicanv9" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
       <Button fx:id="btnConectar" layoutX="114.0" layoutY="183.0" mnemonicParsing="false" onAction="#connection" prefHeight="26.0" prefWidth="82.0" text="Conectar" />
       <Button fx:id="btnCaptura" layoutX="91.0" layoutY="239.0" mnemonicParsing="false" onAction="#showCapturaView" prefHeight="40.0" prefWidth="120.0" text="Captura" visible="false" />
       <Button fx:id="btnConsulta" layoutX="91.0" layoutY="287.0" mnemonicParsing="false" onAction="#showConsultaView" prefHeight="40.0" prefWidth="120.0" text="Consulta" visible="false" />
-      <Label fx:id="lblMensaje" layoutX="115.0" layoutY="216.0" prefHeight="17.0" prefWidth="170.0" textFill="#ff1d1d" visible="false" />
+      <Label fx:id="lblMensaje" layoutX="99.0" layoutY="222.0" prefHeight="17.0" prefWidth="170.0" textFill="#ff1d1d" visible="false" />
    </children>
 </Pane>
