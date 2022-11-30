@@ -37,6 +37,10 @@ public class CapturaController implements Initializable {
 
     private String msg;
 
+
+    /*
+    TODO: Hacer un procedimiento almacenado para eliminar
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ToggleGroup toggleGroup = new ToggleGroup();
@@ -68,6 +72,12 @@ public class CapturaController implements Initializable {
             return;
         }
 
+        if (!validarDatos()) {
+            labelMessages.setVisible( true );
+            labelMessages.setText( msg );
+            return;
+        }
+
         String nombre = txtNombre.getText();
         String descripcion = txtDescripcion.getText();
         double precio = Double.parseDouble(txtPrecio.getText());
@@ -96,13 +106,10 @@ public class CapturaController implements Initializable {
             labelMessages.setVisible(false);
         }
 
+        clear();
         txtClave.setText("");
         txtClave.setDisable(true);
-        txtNombre.setText("");
-        txtDescripcion.setText("");
-        txtPrecio.setText("");
         radioNuevo.setSelected(true);
-        cmbFamilias.getSelectionModel().clearSelection();
     }
 
     @FXML
@@ -195,6 +202,27 @@ public class CapturaController implements Initializable {
         return true;
     }
 
+    private boolean validarDatos() {
+        if (txtNombre.getText().isEmpty()) {
+            msg = "Faltan datos por ingresar";
+            return false;
+        }
+
+        if (txtDescripcion.getText().isEmpty()) {
+            msg = "Faltan datos por ingresar";
+            return false;
+        }
+
+        if (cmbFamilias.getSelectionModel().isEmpty()) {
+            msg = "Faltan datos por ingresar";
+            return false;
+        }
+
+        return true;
+
+
+    }
+
     private void llenarCombo() {
 
         String query = "select * from familias";
@@ -244,7 +272,7 @@ public class CapturaController implements Initializable {
         try {
 
             int clave = 0;
-            if (!txtClave.getText().isEmpty()) {
+            if (!txtClave.getText().isEmpty() && opcion != 0) {
                 clave = Integer.parseInt(txtClave.getText());
             }
 
