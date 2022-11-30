@@ -91,6 +91,7 @@ public class CapturaController implements Initializable {
     @FXML
     public void limpiar() {
 
+        deshabilitarCampos( false );
         if (labelMessages.isVisible()) {
             labelMessages.setVisible(false);
         }
@@ -106,6 +107,9 @@ public class CapturaController implements Initializable {
 
     @FXML
     public void cambiar() {
+
+        deshabilitarCampos( false );
+
         if (radioNuevo.isSelected()) {
             txtClave.setDisable(true);
             txtClave.setText("");
@@ -113,9 +117,16 @@ public class CapturaController implements Initializable {
             return;
         }
 
-        if (radioModificar.isSelected() || radioEliminar.isSelected()) {
+        if (radioModificar.isSelected()) {
             txtClave.setDisable(false);
             txtClave.setText("");
+            clear();
+        }
+
+        if (radioEliminar.isSelected()) {
+            txtClave.setDisable(false);
+            txtClave.setText("");
+            deshabilitarCampos( true );
             clear();
         }
 
@@ -188,6 +199,7 @@ public class CapturaController implements Initializable {
 
         String query = "select * from familias";
         cmbFamilias.getItems().clear();
+
         try {
             MainController.hacerConexion();
             Statement smt = MainController.coneccion.createStatement();
@@ -277,6 +289,13 @@ public class CapturaController implements Initializable {
         }
 
         return 2;
+    }
+
+    private void deshabilitarCampos(boolean estado) {
+        txtNombre.setDisable( estado );
+        txtDescripcion.setDisable( estado );
+        txtPrecio.setDisable( estado );
+        cmbFamilias.setDisable( estado );
     }
 
 }
