@@ -1,5 +1,6 @@
 package com.example.esparzaproyecto.controllers;
 
+import com.example.esparzaproyecto.models.Conexion;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,39 +16,41 @@ import java.sql.DriverManager;
 public class MainController {
 
     @FXML
-    private TextField txtServidor, txtBaseDatos, txtInicioSesion , txtContrasenia;
+    private TextField txtServidor, txtBaseDatos, txtInicioSesion, txtContrasenia;
     @FXML
     private Button btnCaptura, btnConsulta;
     @FXML
     private Label lblMensaje;
     static Connection coneccion;
 
-   @FXML public void connection(){
+    @FXML
+    public void connection() {
 
         String servidor = txtServidor.getText();
         String baseDatos = txtBaseDatos.getText();
         String inicioSesion = txtInicioSesion.getText();
         String contrasenia = txtContrasenia.getText();
-        String url = "jdbc:sqlserver://" + servidor + ";databaseName="+ baseDatos +";encrypt=true;trustServerCertificate=true";
-        try {
-            coneccion = DriverManager.getConnection(url, inicioSesion, contrasenia);
-            lblMensaje.setText("Coneccion con exito");
-            lblMensaje.setVisible(true);
-            btnCaptura.setVisible(true);
-            btnConsulta.setVisible(true);
-            txtServidor.setDisable(true);
-            txtBaseDatos.setDisable(true);
-            txtInicioSesion.setDisable(true);
-            txtContrasenia.setDisable(true);
-        }catch (Exception e){
-            lblMensaje.setText("Algun dato es incorrecto");
-            lblMensaje.setVisible(true);
-            System.out.println(e.getMessage());
+        Conexion.conectar(servidor, baseDatos, inicioSesion, contrasenia);
+
+        if (!Conexion.error().isEmpty()) {
+            lblMensaje.setText(Conexion.error());
+            lblMensaje.setVisible( true );
+            System.out.println(Conexion.error());
+            return;
         }
+        lblMensaje.setText("Conexion con exito");
+        lblMensaje.setVisible(true);
+        btnCaptura.setVisible(true);
+        btnConsulta.setVisible(true);
+        txtServidor.setDisable(true);
+        txtBaseDatos.setDisable(true);
+        txtInicioSesion.setDisable(true);
+        txtContrasenia.setDisable(true);
     }
 
 
-    @FXML public void showCapturaView() {
+    @FXML
+    public void showCapturaView() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/esparzaproyecto/captura-view.fxml"));
         try {
 
@@ -55,7 +58,7 @@ public class MainController {
             Stage stage = new Stage();
             stage.setTitle("Captura");
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setResizable( false );
+            stage.setResizable(false);
             stage.setScene(scene);
             stage.showAndWait();
 
@@ -63,7 +66,9 @@ public class MainController {
             System.out.println(error.getMessage());
         }
     }
-    @FXML public void showConsultaView() {
+
+    @FXML
+    public void showConsultaView() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/esparzaproyecto/consulta-view.fxml"));
         try {
 
@@ -71,7 +76,7 @@ public class MainController {
             Stage stage = new Stage();
             stage.setTitle("Consulta");
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setResizable( false );
+            stage.setResizable(false);
             stage.setScene(scene);
             stage.showAndWait();
 
@@ -81,13 +86,5 @@ public class MainController {
     }
 
 
-    public static void hacerConexion() {
-        String url = "jdbc:sqlserver://;databaseName=ventas;encrypt=true;trustServerCertificate=true";
-        try {
-            coneccion = DriverManager.getConnection(url, "sa", "Hachiko11");
-        } catch(Exception error) {
-            System.out.println(error.getMessage());
-        }
-    }
 
 }

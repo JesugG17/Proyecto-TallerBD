@@ -1,6 +1,7 @@
 package com.example.esparzaproyecto.controllers;
 
 import com.example.esparzaproyecto.models.Articulo;
+import com.example.esparzaproyecto.models.Conexion;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,32 +16,28 @@ import java.util.ResourceBundle;
 public class CapturaController implements Initializable {
 
     @FXML
-    RadioButton radioNuevo, radioModificar, radioEliminar;
+    private RadioButton radioNuevo, radioModificar, radioEliminar;
 
     @FXML
-    ComboBox<String> cmbFamilias;
+    private ComboBox<String> cmbFamilias;
 
     @FXML
-    TableView<Articulo> tablaDatos;
+    private TableView<Articulo> tablaDatos;
 
     @FXML
-    TableColumn<String, Articulo> columnClave, columnNombre, columnDescripcion, columnPrecio, columnFamilia;
+    private TableColumn<String, Articulo> columnClave, columnNombre, columnDescripcion, columnPrecio, columnFamilia;
 
     @FXML
-    TextField txtClave, txtNombre, txtDescripcion, txtPrecio;
+    private TextField txtClave, txtNombre, txtDescripcion, txtPrecio;
 
     @FXML
-    ObservableList<Articulo> articulos;
+    private ObservableList<Articulo> articulos;
 
     @FXML
-    Label labelMessages;
+    private Label labelMessages;
 
     private String msg;
 
-
-    /*
-    TODO: Hacer un procedimiento almacenado para eliminar
-     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ToggleGroup toggleGroup = new ToggleGroup();
@@ -149,7 +146,7 @@ public class CapturaController implements Initializable {
             int clave = Integer.parseInt(txtClave.getText());
 
             String query = "SELECT * FROM vw_familias WHERE artid = " + clave;
-            Statement smt = MainController.coneccion.createStatement();
+            Statement smt = Conexion.getConexion().createStatement();
             ResultSet tupla = smt.executeQuery(query);
 
             if (!tupla.next()) {
@@ -229,8 +226,8 @@ public class CapturaController implements Initializable {
         cmbFamilias.getItems().clear();
 
         try {
-            MainController.hacerConexion();
-            Statement smt = MainController.coneccion.createStatement();
+
+            Statement smt = Conexion.getConexion().createStatement();
             ResultSet tuplas = smt.executeQuery(query);
 
             while (tuplas.next()) {
@@ -249,7 +246,7 @@ public class CapturaController implements Initializable {
         articulos.clear();
         try {
             Articulo articulo;
-            Statement smt = MainController.coneccion.createStatement();
+            Statement smt = Conexion.getConexion().createStatement();
             ResultSet tuplas = smt.executeQuery("select * from articulos");
             while (tuplas.next()) {
                 articulo = new Articulo(tuplas.getInt("artid"),
@@ -281,7 +278,7 @@ public class CapturaController implements Initializable {
             String descripcion = articulo.getDescripcion();
             double precio = articulo.getPrecio();
             int famId = articulo.getFamId();
-            CallableStatement callableStatement = MainController.coneccion.prepareCall(procedimiento);
+            CallableStatement callableStatement = Conexion.getConexion().prepareCall(procedimiento);
 
             System.out.println(procedimiento);
             callableStatement.setInt("artid", clave);
