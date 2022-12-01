@@ -122,7 +122,7 @@ public class ConsultaController implements Initializable {
             String query = "SELECT * from familias " ;
             ResultSet res = state.executeQuery(query);
             while (res.next())
-                cmbFamilias.getItems().add(res.getInt("famid") + "");
+                cmbFamilias.getItems().add(res.getInt("famid") + " " + res.getString("famnombre"));
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
