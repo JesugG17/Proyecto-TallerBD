@@ -270,7 +270,7 @@ public class CapturaController implements Initializable {
         try {
 
             int clave = 0;
-            if (!txtClave.getText().isEmpty() && !radioNuevo.isSelected()) {
+            if (!txtClave.getText().isEmpty()) {
                 clave = Integer.parseInt(txtClave.getText());
             }
 
