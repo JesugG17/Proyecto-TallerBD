@@ -21,7 +21,7 @@ public class ConsultaController implements Initializable {
     @FXML
     ComboBox cmbFamilias;
     @FXML
-    TextField txtClave;
+    TextField txtClave, txtNombre, txtDescripcion, txtPrecio;
     @FXML
     ObservableList<Articulo> articulos;
     @FXML
@@ -34,18 +34,65 @@ public class ConsultaController implements Initializable {
 
     @FXML
     public void busquedaClave(){
-        String busqueda = txtClave.getText();
+        Familia familia;
+        vw_familias.clear();
         try {
             Statement state = coneccion.createStatement();
-            String query = "SELECT * from familias " ;
-            ResultSet res = state.executeQuery(query);
-            while (res.next()){
+            String query = hacerQuery();
+            ResultSet tuplas = state.executeQuery(query);
+            while ( tuplas.next() ) {
+                familia = new Familia(tuplas.getInt("famid"),
+                        tuplas.getString("famnombre"),
+                        tuplas.getInt("artid"),
+                        tuplas.getString("artnombre"),
+                        tuplas.getString("artdescripcion"),
+                        tuplas.getDouble("artprecio"));
+                vw_familias.add( familia );
             }
+            tablaDatos.refresh();
 
         }catch (Exception e){
             System.out.println("que menso no jala");
             System.out.println(e.getMessage());
         }
+
+    }
+    @FXML
+    public void limpiar(){
+        txtClave.setText("");
+        txtNombre.setText("");
+        txtDescripcion.setText("");
+        cmbFamilias.getSelectionModel().clearSelection();
+        txtPrecio.setText("");
+    }
+
+
+    public String hacerQuery(){
+        String  condiciones = " WHERE ";
+        String query = "SELECT * FROM vw_familias ";
+        if(!txtClave.getText().isEmpty()){
+            query += condiciones + " artid = " + txtClave.getText();
+            condiciones = " AND ";
+        }
+        if(!txtNombre.getText().isEmpty()){
+            query += condiciones + "artnombre like '%" + txtNombre.getText() + "%'";
+            condiciones = " AND ";
+        }
+        if(!txtDescripcion.getText().isEmpty()){
+            query += condiciones + "artdescripcion like '%"+txtDescripcion.getText() +"%'";
+            condiciones = " AND ";
+        }
+        if(cmbFamilias.getSelectionModel().getSelectedIndex() > 0){
+            query += condiciones + "famid = " + cmbFamilias.getSelectionModel().getSelectedItem();
+            condiciones = " AND ";
+        }
+        if(!txtPrecio.getText().isEmpty()){
+            int precio = Integer.parseInt(txtPrecio.getText());
+            query += condiciones + "artprecio > " + precio + " AND artprecio < " + (precio + 1);
+        }
+
+        System.out.println(query);
+        return query;
     }
 
     private void llenarTabla() {
@@ -77,7 +124,6 @@ public class ConsultaController implements Initializable {
             while (res.next())
                 cmbFamilias.getItems().add(res.getInt("famid") + "");
         }catch (Exception e){
-            System.out.println("que menso no jala");
             System.out.println(e.getMessage());
         }
     }
