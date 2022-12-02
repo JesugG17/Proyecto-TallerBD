@@ -27,7 +27,7 @@
             <Label text="Base de datos" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
             <Label text="Inicio de sesion" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
             <Label text="Contraseña " GridPane.halignment="LEFT" GridPane.rowIndex="3" />
-            <TextField fx:id="txtServidor" prefHeight="26.0" prefWidth="190.0" text="MSI" GridPane.columnIndex="1" />
+            <TextField fx:id="txtServidor" prefHeight="26.0" prefWidth="190.0" text="LAPTOP-D95M90OC" GridPane.columnIndex="1" />
             <TextField fx:id="txtBaseDatos" text="Ventas" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="txtInicioSesion" text="sa" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <PasswordField fx:id="txtContrasenia" text="Monicanv9" GridPane.columnIndex="1" GridPane.rowIndex="3" />

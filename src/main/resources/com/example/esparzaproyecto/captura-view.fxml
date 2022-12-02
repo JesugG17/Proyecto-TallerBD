@@ -26,11 +26,11 @@
       <Label layoutX="36.0" layoutY="101.0" text="Nombre" />
       <Label layoutX="23.0" layoutY="139.0" text="Descripcion" />
       <Label layoutX="36.0" layoutY="206.0" text="Familia" />
-      <TextField fx:id="txtClave" alignment="CENTER" disable="true" layoutX="88.0" layoutY="56.0" onKeyReleased="#consultarDatos" prefHeight="25.0" prefWidth="57.0" promptText="clave" />
-      <TextField fx:id="txtNombre" layoutX="89.0" layoutY="97.0" prefHeight="25.0" prefWidth="291.0" />
-      <TextField fx:id="txtDescripcion" layoutX="89.0" layoutY="135.0" prefHeight="25.0" prefWidth="291.0" />
-      <TextField fx:id="txtPrecio" layoutX="89.0" layoutY="169.0" prefHeight="25.0" prefWidth="291.0" />
-      <ComboBox fx:id="cmbFamilias" layoutX="88.0" layoutY="202.0" prefWidth="150.0" />
+      <TextField fx:id="txtClave" alignment="CENTER" disable="true" layoutX="88.0" layoutY="56.0" onKeyReleased="#consultarDatos" onMousePressed="#limpiarPantalla" prefHeight="25.0" prefWidth="57.0" promptText="clave" />
+      <TextField fx:id="txtNombre" layoutX="89.0" layoutY="97.0" onMousePressed="#limpiarPantalla" prefHeight="25.0" prefWidth="291.0" />
+      <TextField fx:id="txtDescripcion" layoutX="89.0" layoutY="135.0" onMousePressed="#limpiarPantalla" prefHeight="25.0" prefWidth="291.0" />
+      <TextField fx:id="txtPrecio" layoutX="89.0" layoutY="169.0" onMousePressed="#limpiarPantalla" prefHeight="25.0" prefWidth="291.0" />
+      <ComboBox fx:id="cmbFamilias" layoutX="88.0" layoutY="202.0" onMousePressed="#limpiarPantalla" prefWidth="150.0" />
       <TableView fx:id="tablaDatos" layoutX="8.0" layoutY="235.0" prefHeight="268.0" prefWidth="503.0">
         <columns>
           <TableColumn fx:id="columnClave" prefWidth="75.0" text="Clave" />
@@ -41,7 +41,27 @@
         </columns>
       </TableView>
       <Label layoutX="41.0" layoutY="173.0" text="Precio" />
-      <Label fx:id="labelMessages" layoutX="276.0" layoutY="206.0" text="Label" textFill="RED" visible="false">
+      <Label fx:id="labelMessages" layoutX="302.0" layoutY="206.0" text="Label" textFill="RED" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblPrecio" layoutX="386.0" layoutY="175.0" text="CAMPO SIN LLENAR" textFill="RED" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblNombre" layoutX="386.0" layoutY="103.0" text="CAMPO SIN LLENAR" textFill="RED" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblDesc" layoutX="386.0" layoutY="141.0" text="CAMPO SIN LLENAR" textFill="RED" visible="false">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblCombo" layoutX="245.0" layoutY="206.0" text="CAMPO SIN LLENAR" textFill="RED" visible="false">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

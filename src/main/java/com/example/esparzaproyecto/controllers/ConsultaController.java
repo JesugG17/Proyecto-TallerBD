@@ -28,7 +28,6 @@ public class ConsultaController implements Initializable {
     TableView<Familia> tablaDatos;
     @FXML
     ObservableList<Familia> vw_familias;
-
     @FXML
     TableColumn<String, Familia> columnFamID, columnFamilia, columnArtID, columnArticulo, columnDescripcion, columnPrecio;
 
