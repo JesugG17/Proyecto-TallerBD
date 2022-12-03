@@ -34,7 +34,7 @@ public class CapturaController implements Initializable {
     private ObservableList<Articulo> articulos;
 
     @FXML
-    private Label labelMessages;
+    private Label labelMessages, lblNombre, lblPrecio, lblDesc, lblCombo;
 
     private String msg;
 
@@ -64,14 +64,17 @@ public class CapturaController implements Initializable {
     @FXML
     public void grabar() {
         labelMessages.setVisible(false);
-        if (!validarPrecio()) {
-            txtPrecio.requestFocus();
+        lblNombre.setVisible(false);
+        lblDesc.setVisible(false);
+        lblPrecio.setVisible(false);
+        lblCombo.setVisible(false);
+
+        if (!validarDatos()) {
             return;
         }
 
-        if (!validarDatos()) {
-            labelMessages.setVisible( true );
-            labelMessages.setText( msg );
+        if (!validarPrecio()) {
+            txtPrecio.requestFocus();
             return;
         }
 
@@ -93,6 +96,7 @@ public class CapturaController implements Initializable {
 
         labelMessages.setText("DATOS GRABADOS EXITOSAMENTE");
         labelMessages.setVisible(true);
+        clear();
     }
 
     @FXML
@@ -104,6 +108,7 @@ public class CapturaController implements Initializable {
         }
 
         clear();
+        limpiarLabels();
         txtClave.setText("");
         txtClave.setDisable(true);
         radioNuevo.setSelected(true);
@@ -113,6 +118,7 @@ public class CapturaController implements Initializable {
     public void cambiar() {
 
         deshabilitarCampos( false );
+        limpiarLabels();
 
         if (radioNuevo.isSelected()) {
             txtClave.setDisable(true);
@@ -175,7 +181,13 @@ public class CapturaController implements Initializable {
         }
     }
 
+    @FXML
+    public void limpiarPantalla() {
+        limpiarLabels();
+    }
+
     private void clear() {
+        txtClave.setText("");
         txtNombre.setText("");
         txtDescripcion.setText("");
         txtPrecio.setText("");
@@ -200,22 +212,29 @@ public class CapturaController implements Initializable {
     }
 
     private boolean validarDatos() {
+        int errores = 0;
         if (txtNombre.getText().isEmpty()) {
-            msg = "Faltan datos por ingresar";
-            return false;
+            lblNombre.setVisible( true );
+            errores++;
         }
 
         if (txtDescripcion.getText().isEmpty()) {
-            msg = "Faltan datos por ingresar";
-            return false;
+            lblDesc.setVisible( true );
+            errores++;
+        }
+
+        if (txtPrecio.getText().isEmpty()) {
+            lblPrecio.setVisible( true );
+            errores++;
         }
 
         if (cmbFamilias.getSelectionModel().isEmpty()) {
-            msg = "Faltan datos por ingresar";
-            return false;
+            lblCombo.setVisible( true );
+            errores++;
         }
 
-        return true;
+
+        return errores == 0;
 
 
     }
@@ -235,8 +254,8 @@ public class CapturaController implements Initializable {
                 cmbFamilias.getItems().add(familia);
             }
 
-        } catch (Exception error) {
-            System.out.println(error.getMessage());
+        } catch (SQLException error) {
+            System.out.println(error.getSQLState());
         }
 
     }
@@ -257,8 +276,8 @@ public class CapturaController implements Initializable {
                 articulos.add(articulo);
             }
             tablaDatos.refresh();
-        } catch (Exception error) {
-            System.out.println(error.getMessage());
+        } catch (SQLException error) {
+            System.out.println(error.getSQLState());
         }
     }
 
@@ -270,7 +289,7 @@ public class CapturaController implements Initializable {
         try {
 
             int clave = 0;
-            if (!txtClave.getText().isEmpty() && !radioNuevo.isSelected()) {
+            if (!txtClave.getText().isEmpty()) {
                 clave = Integer.parseInt(txtClave.getText());
             }
 
@@ -320,6 +339,14 @@ public class CapturaController implements Initializable {
         txtDescripcion.setDisable( estado );
         txtPrecio.setDisable( estado );
         cmbFamilias.setDisable( estado );
+    }
+
+    private void limpiarLabels() {
+        labelMessages.setVisible(false);
+        lblNombre.setVisible(false);
+        lblDesc.setVisible(false);
+        lblPrecio.setVisible(false);
+        lblCombo.setVisible(false);
     }
 
 }
