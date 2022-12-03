@@ -19,7 +19,7 @@ public class ConsultaController implements Initializable {
 
     Connection coneccion = MainController.coneccion;
     @FXML
-    ComboBox cmbFamilias;
+    ComboBox<String> cmbFamilias;
     @FXML
     TextField txtClave, txtNombre, txtDescripcion, txtPrecio;
     @FXML
@@ -83,8 +83,9 @@ public class ConsultaController implements Initializable {
             condiciones = " AND ";
         }
         if(cmbFamilias.getSelectionModel().getSelectedIndex() > 0){
-            query += condiciones + "famid = " + cmbFamilias.getSelectionModel().getSelectedItem();
+            query += condiciones + "famid = " + cmbFamilias.getValue().substring(0, cmbFamilias.getValue().indexOf(" "));
             condiciones = " AND ";
+
         }
         if(!txtPrecio.getText().isEmpty()){
             int precio = Integer.parseInt(txtPrecio.getText());
