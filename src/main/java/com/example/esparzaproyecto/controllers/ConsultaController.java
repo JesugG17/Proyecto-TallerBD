@@ -1,6 +1,7 @@
 package com.example.esparzaproyecto.controllers;
 
 import com.example.esparzaproyecto.models.Articulo;
+import com.example.esparzaproyecto.models.Conexion;
 import com.example.esparzaproyecto.models.Familia;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,7 +37,7 @@ public class ConsultaController implements Initializable {
         Familia familia;
         vw_familias.clear();
         try {
-            Statement state = coneccion.createStatement();
+            Statement state = Conexion.getConexion().createStatement();
             String query = hacerQuery();
             ResultSet tuplas = state.executeQuery(query);
             while ( tuplas.next() ) {
@@ -81,7 +82,7 @@ public class ConsultaController implements Initializable {
             query += condiciones + "artdescripcion like '%"+txtDescripcion.getText() +"%'";
             condiciones = " AND ";
         }
-        if(cmbFamilias.getSelectionModel().getSelectedIndex() > 0){
+        if(!cmbFamilias.getSelectionModel().isEmpty()){
             query += condiciones + "famid = " + cmbFamilias.getValue().substring(0, cmbFamilias.getValue().indexOf(" "));
             condiciones = " AND ";
 
@@ -98,7 +99,7 @@ public class ConsultaController implements Initializable {
     private void llenarTabla() {
         try {
             Familia familia;
-            Statement smt = MainController.coneccion.createStatement();
+            Statement smt = Conexion.getConexion().createStatement();
             ResultSet tuplas = smt.executeQuery("select * from vw_familias");
             while ( tuplas.next() ) {
                 familia = new Familia(tuplas.getInt("famid"),
@@ -118,7 +119,7 @@ public class ConsultaController implements Initializable {
     @FXML
     public void cargarFamilias(){
         try {
-            Statement state = coneccion.createStatement();
+            Statement state = Conexion.getConexion().createStatement();;
             String query = "SELECT * from familias " ;
             ResultSet res = state.executeQuery(query);
             while (res.next())
