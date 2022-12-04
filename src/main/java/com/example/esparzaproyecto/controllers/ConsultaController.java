@@ -35,6 +35,7 @@ public class ConsultaController implements Initializable {
         vw_familias.clear();
         try {
             Statement state = conexion.createStatement();
+
             String query = hacerQuery();
             ResultSet tuplas = state.executeQuery(query);
             while ( tuplas.next() ) {
@@ -79,9 +80,10 @@ public class ConsultaController implements Initializable {
             query += condiciones + "artdescripcion like '%"+txtDescripcion.getText() +"%'";
             condiciones = " AND ";
         }
-        if(cmbFamilias.getSelectionModel().getSelectedIndex() > 0){
-            query += condiciones + "famid = " + cmbFamilias.getSelectionModel().getSelectedItem();
+        if(!cmbFamilias.getSelectionModel().isEmpty()){
+            query += condiciones + "famid = " + cmbFamilias.getValue().substring(0, cmbFamilias.getValue().indexOf(" "));
             condiciones = " AND ";
+
         }
         if(!txtPrecio.getText().isEmpty()){
             int precio = Integer.parseInt(txtPrecio.getText());
@@ -95,6 +97,7 @@ public class ConsultaController implements Initializable {
     private void llenarTabla() {
         try {
             Familia familia;
+
             Statement smt = conexion.createStatement();
             ResultSet tuplas = smt.executeQuery("select * from vw_familias");
             while ( tuplas.next() ) {
@@ -115,7 +118,9 @@ public class ConsultaController implements Initializable {
     @FXML
     public void cargarFamilias(){
         try {
+
             Statement state = conexion.createStatement();
+
             String query = "SELECT * from familias " ;
             ResultSet res = state.executeQuery(query);
             while (res.next())
