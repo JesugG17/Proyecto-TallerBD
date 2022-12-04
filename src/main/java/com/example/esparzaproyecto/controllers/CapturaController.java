@@ -34,7 +34,7 @@ public class CapturaController implements Initializable {
     private ObservableList<Articulo> articulos;
 
     @FXML
-    private Label labelMessages, lblNombre, lblPrecio, lblDesc, lblCombo;
+    private Label labelMessages, lblNombre, lblPrecio, lblDesc, lblCombo, lblClave;
 
     private String msg;
 
@@ -151,14 +151,14 @@ public class CapturaController implements Initializable {
 
             int clave = Integer.parseInt(txtClave.getText());
 
-            String query = "SELECT * FROM vw_familias WHERE artid = " + clave;
+            String query = "SELECT * FROM articulos WHERE artid = " + clave;
             Statement smt = Conexion.getConexion().createStatement();
             ResultSet tupla = smt.executeQuery(query);
 
             if (!tupla.next()) {
                 msg = "ESTE ID NO EXISTE";
-                labelMessages.setText(msg);
-                labelMessages.setVisible(true);
+                lblClave.setText(msg);
+                lblClave.setVisible(true);
                 clear();
                 return;
             }
@@ -255,7 +255,7 @@ public class CapturaController implements Initializable {
             }
 
         } catch (SQLException error) {
-            System.out.println(error.getSQLState());
+
         }
 
     }
@@ -297,27 +297,27 @@ public class CapturaController implements Initializable {
             String descripcion = articulo.getDescripcion();
             double precio = articulo.getPrecio();
             int famId = articulo.getFamId();
+
             CallableStatement callableStatement = Conexion.getConexion().prepareCall(procedimiento);
 
-            System.out.println(procedimiento);
-            callableStatement.setInt("artid", clave);
+            callableStatement.setInt(1, clave);
             if (procedimiento.equals("{call sp_MttoArticulos (?,?,?,?,?)}")) {
-                callableStatement.registerOutParameter("artid", Types.INTEGER);
-                callableStatement.setString("artNombre", nombre);
-                callableStatement.setString("artDescripcion", descripcion);
-                callableStatement.setDouble("artPrecio", precio);
-                callableStatement.setInt("famId", famId);
+                callableStatement.registerOutParameter(1, Types.INTEGER);
+                callableStatement.setString(2, nombre);
+                callableStatement.setString(3, descripcion);
+                callableStatement.setDouble(4, precio);
+                callableStatement.setInt(5, famId);
             }
 
             callableStatement.execute();
+
             if (procedimiento.equals("{call sp_MttoArticulos (?,?,?,?,?)}")) {
                 txtClave.setText(callableStatement.getInt("artid") + "");
                 articulo.setClave(callableStatement.getInt("artid"));
-
             }
 
-        } catch (Exception error) {
-            msg = error.getMessage();
+        } catch (SQLException error) {
+            msg = evaluarError(error.getMessage());
             System.out.println(error.getMessage());
             return false;
         }
@@ -347,6 +347,15 @@ public class CapturaController implements Initializable {
         lblDesc.setVisible(false);
         lblPrecio.setVisible(false);
         lblCombo.setVisible(false);
+    }
+
+    private String evaluarError(String errorMessage) {
+
+        if (errorMessage.contains("Could not find")) {
+            return "El proc. almacenado no existe, favor de crearlo";
+        }
+        return errorMessage;
+
     }
 
 }

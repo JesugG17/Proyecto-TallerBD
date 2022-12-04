@@ -1,10 +1,8 @@
 package com.example.esparzaproyecto.models;
 
 import java.sql.Connection;
-import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Arrays;
 
 public class Conexion {
 
@@ -25,7 +23,11 @@ public class Conexion {
         } catch (SQLException error) {
             conexion = null;
             System.out.println("Hello");
-            Conexion.error = "El usuario " + datos[2] + " no tiene acceso a la base de datos";
+            if (user.equalsIgnoreCase("sa")) {
+                Conexion.error = "Algun dato es incorrecto";
+                return;
+            }
+            Conexion.error = "El usuario " + datos[2] + " no tiene acceso a la base de datos " + datos[1];
         }
     }
 

@@ -1,6 +1,6 @@
 package com.example.esparzaproyecto.controllers;
 
-import com.example.esparzaproyecto.models.Articulo;
+import com.example.esparzaproyecto.models.Conexion;
 import com.example.esparzaproyecto.models.Familia;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,13 +17,11 @@ import java.util.ResourceBundle;
 
 public class ConsultaController implements Initializable {
 
-    Connection coneccion = MainController.coneccion;
+    Connection conexion;
     @FXML
-    ComboBox cmbFamilias;
+    ComboBox<String> cmbFamilias;
     @FXML
     TextField txtClave, txtNombre, txtDescripcion, txtPrecio;
-    @FXML
-    ObservableList<Articulo> articulos;
     @FXML
     TableView<Familia> tablaDatos;
     @FXML
@@ -36,7 +34,7 @@ public class ConsultaController implements Initializable {
         Familia familia;
         vw_familias.clear();
         try {
-            Statement state = coneccion.createStatement();
+            Statement state = conexion.createStatement();
             String query = hacerQuery();
             ResultSet tuplas = state.executeQuery(query);
             while ( tuplas.next() ) {
@@ -97,7 +95,7 @@ public class ConsultaController implements Initializable {
     private void llenarTabla() {
         try {
             Familia familia;
-            Statement smt = MainController.coneccion.createStatement();
+            Statement smt = conexion.createStatement();
             ResultSet tuplas = smt.executeQuery("select * from vw_familias");
             while ( tuplas.next() ) {
                 familia = new Familia(tuplas.getInt("famid"),
@@ -117,7 +115,7 @@ public class ConsultaController implements Initializable {
     @FXML
     public void cargarFamilias(){
         try {
-            Statement state = coneccion.createStatement();
+            Statement state = conexion.createStatement();
             String query = "SELECT * from familias " ;
             ResultSet res = state.executeQuery(query);
             while (res.next())
@@ -130,6 +128,7 @@ public class ConsultaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         vw_familias = FXCollections.observableArrayList();
+        conexion = Conexion.getConexion();
 
         tablaDatos.setPlaceholder(new Label("Sin articulos que mostrar"));
         tablaDatos.setItems( vw_familias );

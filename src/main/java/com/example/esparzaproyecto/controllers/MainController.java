@@ -32,7 +32,6 @@ public class MainController {
         String contrasenia = txtContrasenia.getText();
 
         Conexion.conectar(servidor, baseDatos, inicioSesion, contrasenia);
-        System.out.println(Conexion.error());
         if (!Conexion.error().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
@@ -41,6 +40,9 @@ public class MainController {
             alert.showAndWait();
             return;
         }
+
+
+
         lblMensaje.setText("Conexion con exito");
         lblMensaje.setVisible(true);
         btnCaptura.setVisible(true);
