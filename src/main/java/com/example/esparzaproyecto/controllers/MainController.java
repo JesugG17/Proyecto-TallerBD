@@ -18,13 +18,18 @@ public class MainController {
     @FXML
     private TextField txtServidor, txtBaseDatos, txtInicioSesion, txtContrasenia;
     @FXML
-    private Button btnCaptura, btnConsulta;
+    private Button btnCaptura, btnConsulta, btnConectar;
     @FXML
     private Label lblMensaje;
-    static Connection coneccion;
 
     @FXML
     public void connection() {
+
+        if (!validarCampos()) {
+            lblMensaje.setVisible( true );
+            return;
+        }
+
 
         String servidor = txtServidor.getText();
         String baseDatos = txtBaseDatos.getText();
@@ -44,6 +49,7 @@ public class MainController {
 
 
         lblMensaje.setText("Conexion con exito");
+        btnConectar.setVisible(false);
         lblMensaje.setVisible(true);
         btnCaptura.setVisible(true);
         btnConsulta.setVisible(true);
@@ -90,6 +96,33 @@ public class MainController {
         }
     }
 
+    private boolean validarCampos() {
 
+        if (txtServidor.getText().isEmpty()) {
+            txtServidor.requestFocus();
+            lblMensaje.setText("Campo 'Servidor' vacio");
+            return false;
+        }
+
+        if (txtBaseDatos.getText().isEmpty()) {
+            txtBaseDatos.requestFocus();
+            lblMensaje.setText("Campo 'Base de datos' vacio");
+            return false;
+        }
+
+        if (txtInicioSesion.getText().isEmpty()) {
+            txtInicioSesion.requestFocus();
+            lblMensaje.setText("Campo 'Inicio de sesion' vacio");
+            return false;
+        }
+
+        if (txtContrasenia.getText().isEmpty()) {
+            txtContrasenia.requestFocus();
+            lblMensaje.setText("Campo 'Contraseña' vacio");
+            return false;
+        }
+
+        return true;
+    }
 
 }

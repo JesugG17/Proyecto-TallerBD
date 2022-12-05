@@ -147,5 +147,13 @@ public class ConsultaController implements Initializable {
 
         llenarTabla();
         cargarFamilias();
+        if (cmbFamilias.getItems().isEmpty() || vw_familias.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("AVISO");
+            alert.setHeaderText(null);
+            alert.setContentText("A ESTE USUARIO LE FALTAN PERMISOS BASICOS, PODRIAN PRESENTARSE PROBLEMAS AL CONSULTAR");
+            cmbFamilias.setDisable( true );
+            alert.showAndWait();
+        }
     }
 }

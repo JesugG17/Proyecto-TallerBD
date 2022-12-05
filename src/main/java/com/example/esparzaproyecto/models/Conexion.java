@@ -22,8 +22,8 @@ public class Conexion {
             }
         } catch (SQLException error) {
             conexion = null;
-            System.out.println("Hello");
-            if (user.equalsIgnoreCase("sa")) {
+            System.out.println(error.getErrorCode());
+            if (error.getErrorCode() == 18456) {
                 Conexion.error = "Algun dato es incorrecto";
                 return;
             }

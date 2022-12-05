@@ -1,24 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXRadioButton?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="517.0" prefWidth="522.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.esparzaproyecto.controllers.CapturaController">
    <children>
       <HBox alignment="CENTER" prefHeight="46.0" prefWidth="522.0" spacing="20.0">
          <children>
-            <RadioButton fx:id="radioNuevo" lineSpacing="20.0" mnemonicParsing="false" onAction="#cambiar" text="Nuevo" />
-            <RadioButton fx:id="radioModificar" mnemonicParsing="false" onAction="#cambiar" text="Modificar" />
-            <RadioButton fx:id="radioEliminar" mnemonicParsing="false" onAction="#cambiar" text="Eliminar" />
-            <Button mnemonicParsing="false" onAction="#grabar" prefHeight="26.0" prefWidth="61.0" text="Grabar" />
+            <JFXRadioButton fx:id="radioNuevo" onAction="#cambiar" text="Nuevo">
+               <selectedColor>
+                  <Color red="0.11372549086809158" green="0.6274510025978088" blue="0.9254902005195618" />
+               </selectedColor>
+            </JFXRadioButton>
+            <JFXRadioButton fx:id="radioModificar" onAction="#cambiar" text="Modificar">
+               <selectedColor>
+                  <Color red="0.11372549086809158" green="0.6274510025978088" blue="0.9254902005195618" />
+               </selectedColor>
+               <unSelectedColor>
+                  <Color red="0.31578946113586426" green="0.19181287288665771" blue="0.19181287288665771" />
+               </unSelectedColor>
+            </JFXRadioButton>
+            <JFXRadioButton fx:id="radioEliminar" onAction="#cambiar" text="Eliminar">
+               <selectedColor>
+                  <Color red="0.11372549086809158" green="0.6274510025978088" blue="0.9254902005195618" />
+               </selectedColor>
+            </JFXRadioButton>
+            <Button mnemonicParsing="false" onAction="#grabar" prefHeight="26.0" prefWidth="61.0" text="Ejecutar" />
             <Button mnemonicParsing="false" onAction="#limpiar" prefHeight="26.0" prefWidth="56.0" text="Limpiar" />
          </children>
       </HBox>

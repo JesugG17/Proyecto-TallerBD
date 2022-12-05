@@ -38,6 +38,7 @@ public class CapturaController implements Initializable {
 
     private String msg;
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ToggleGroup toggleGroup = new ToggleGroup();
@@ -59,6 +60,14 @@ public class CapturaController implements Initializable {
         txtNombre.requestFocus();
         llenarCombo();
         llenarTabla();
+        if (cmbFamilias.getItems().isEmpty() || articulos.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("AVISO");
+            alert.setHeaderText(null);
+            alert.setContentText("A ESTE USUARIO LE FALTAN PERMISOS BASICOS, PODRIAN PRESENTARSE PROBLEMAS AL CAPTURAR");
+            cmbFamilias.setDisable(true);
+            alert.showAndWait();
+        }
     }
 
     @FXML
@@ -87,14 +96,14 @@ public class CapturaController implements Initializable {
         Articulo articulo = new Articulo(nombre, descripcion, precio, famId);
 
         if (!insertarDatos(articulo)) {
-            labelMessages.setVisible( true );
+            labelMessages.setVisible(true);
             labelMessages.setText(msg);
             return;
         }
 
         llenarTabla();
 
-        labelMessages.setText("DATOS GRABADOS EXITOSAMENTE");
+        labelMessages.setText("PROCESO EJECUTADO EXITOSAMENTE");
         labelMessages.setVisible(true);
         clear();
     }
@@ -102,7 +111,7 @@ public class CapturaController implements Initializable {
     @FXML
     public void limpiar() {
 
-        deshabilitarCampos( false );
+        deshabilitarCampos(false);
         if (labelMessages.isVisible()) {
             labelMessages.setVisible(false);
         }
@@ -117,7 +126,7 @@ public class CapturaController implements Initializable {
     @FXML
     public void cambiar() {
 
-        deshabilitarCampos( false );
+        deshabilitarCampos(false);
         limpiarLabels();
 
         if (radioNuevo.isSelected()) {
@@ -136,7 +145,7 @@ public class CapturaController implements Initializable {
         if (radioEliminar.isSelected()) {
             txtClave.setDisable(false);
             txtClave.setText("");
-            deshabilitarCampos( true );
+            deshabilitarCampos(true);
             clear();
         }
 
@@ -146,7 +155,7 @@ public class CapturaController implements Initializable {
     public void consultarDatos() {
 
         labelMessages.setVisible(false);
-
+        limpiarLabels();
         try {
 
             int clave = Integer.parseInt(txtClave.getText());
@@ -214,28 +223,26 @@ public class CapturaController implements Initializable {
     private boolean validarDatos() {
         int errores = 0;
         if (txtNombre.getText().isEmpty()) {
-            lblNombre.setVisible( true );
+            lblNombre.setVisible(true);
             errores++;
         }
 
         if (txtDescripcion.getText().isEmpty()) {
-            lblDesc.setVisible( true );
+            lblDesc.setVisible(true);
             errores++;
         }
 
         if (txtPrecio.getText().isEmpty()) {
-            lblPrecio.setVisible( true );
+            lblPrecio.setVisible(true);
             errores++;
         }
 
         if (cmbFamilias.getSelectionModel().isEmpty()) {
-            lblCombo.setVisible( true );
+            lblCombo.setVisible(true);
             errores++;
         }
 
-
         return errores == 0;
-
 
     }
 
@@ -255,8 +262,9 @@ public class CapturaController implements Initializable {
             }
 
         } catch (SQLException error) {
-
+            System.out.println(error.getMessage());
         }
+
 
     }
 
@@ -335,13 +343,16 @@ public class CapturaController implements Initializable {
     }
 
     private void deshabilitarCampos(boolean estado) {
-        txtNombre.setDisable( estado );
-        txtDescripcion.setDisable( estado );
-        txtPrecio.setDisable( estado );
-        cmbFamilias.setDisable( estado );
+        txtNombre.setDisable(estado);
+        txtDescripcion.setDisable(estado);
+        txtPrecio.setDisable(estado);
+        if (!cmbFamilias.getItems().isEmpty()) {
+            cmbFamilias.setDisable(estado);
+        }
     }
 
     private void limpiarLabels() {
+        lblClave.setVisible(false);
         labelMessages.setVisible(false);
         lblNombre.setVisible(false);
         lblDesc.setVisible(false);
@@ -354,6 +365,11 @@ public class CapturaController implements Initializable {
         if (errorMessage.contains("Could not find")) {
             return "El proc. almacenado no existe, favor de crearlo";
         }
+
+        if (errorMessage.contains("The EXECUTE permission was denied")) {
+            return "Sin permisos sobre el proc. almacenado";
+        }
+
         return errorMessage;
 
     }
